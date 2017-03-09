@@ -24,7 +24,6 @@ module OmniAuth
                description: raw_info['bio'],
                urls: {
                  twitchtv: profile_url,
-                 website: raw_info['_links']['self']
                },
                partnered: raw_info['partnered'])
       end
@@ -51,7 +50,7 @@ module OmniAuth
       def raw_info
         get_hash_from_channel = lambda do |token, client_id|
           http_client = HTTPClient.new
-          header = { 'Authorization' => "OAuth #{token}", 'Client-ID ' => client_id }
+          header = { 'Authorization' => "OAuth #{token}", 'Client-ID ' => client_id, 'Accept' => 'application/vnd.twitchtv.v5+json' }
           response = http_client.get(info_url, '', header)
           if response.code.to_i != 200
             raise Omniauth::Twitchtv::TwitchtvError, 'Failed to get user details from Twitch.TV'
